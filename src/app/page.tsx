@@ -79,12 +79,12 @@ export default function TodoListApp () {
             Add
           </button>
         </div>
-        <div className="flex-1 overflow-y-auto" >
-          <ul className="flex flex-wrap gap-5 justify-start w-full max-w-full">
+        <div className="flex overflow-y-auto">
+          <div className="flex flex-wrap justify-center w-auto">
             {todos.map((todo) => (
-                <li
+                <div
                     key={todo.id}
-                    className={`w-[calc(100%/5-1rem)] min-w-[200px] p-4 flex flex-col place-content-between rounded-md ${todo.completed ? "bg-emerald-200" : "bg-sky-200"}`}
+                    className={`w-[calc(100%/5-1rem)] min-w-[200px] p-4 m-2 flex flex-col place-content-between rounded-md ${todo.completed ? "bg-emerald-200" : "bg-sky-200"}`}
                 >
                   <span className="text-gray-700 break-words">{todo.title}</span>
                   <div>
@@ -97,9 +97,9 @@ export default function TodoListApp () {
                       Delete
                     </button>
                   </div>
-                </li>
+                </div>
             ))}
-          </ul>
+          </div>
 
         </div>
       </div>
