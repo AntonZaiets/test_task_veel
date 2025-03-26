@@ -80,11 +80,11 @@ export default function TodoListApp () {
           </button>
         </div>
         <div className="flex overflow-y-auto">
-          <div className="flex flex-wrap justify-center w-auto">
+          <div className="flex flex-wrap gap-5 justify-center">
             {todos.map((todo) => (
                 <div
                     key={todo.id}
-                    className={`w-[calc(100%/5-1rem)] min-w-[200px] p-4 m-2 flex flex-col place-content-between rounded-md ${todo.completed ? "bg-emerald-200" : "bg-sky-200"}`}
+                    className={`w-[calc(100%/5-1rem)] min-w-[200px] p-4 flex flex-col place-content-between rounded-md ${todo.completed ? "bg-emerald-200" : "bg-sky-200"}`}
                 >
                   <span className="text-gray-700 break-words">{todo.title}</span>
                   <div>
