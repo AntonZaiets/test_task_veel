@@ -49,7 +49,7 @@ export default function TodoListApp () {
     }
   };
 
-  const deleteTodo = async (id) => {
+  const deleteTodo = async (id: number) => {
     try {
       await axios.delete(`https://jsonplaceholder.typicode.com/todos/${id}`);
       setTodos((prevTodos) => prevTodos.filter((todo) => todo.id !== id));
