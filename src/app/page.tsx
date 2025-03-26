@@ -4,7 +4,13 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 
 export default function TodoListApp () {
-  const [todos, setTodos] = useState([]);
+  type Todo = {
+    id: number;
+    title: string;
+    completed: boolean;
+  };
+
+  const [todos, setTodos] = useState<Todo[]>([]);
   const [newTodo, setNewTodo] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -36,7 +42,7 @@ export default function TodoListApp () {
           newTodoData
       );
 
-      setTodos((prevTodos) => [...prevTodos, response.data]);
+      setTodos((prevTodos) => [...prevTodos, response.data as Todo]);
       setNewTodo("");
     } catch (err) {
       setError("Error adding todo");
