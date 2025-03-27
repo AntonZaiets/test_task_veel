@@ -5,7 +5,7 @@ interface TodoInputProps {
     setNewTodo: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const TodoInput: React.FC<TodoInputProps> = ({ newTodo, setNewTodo }) => {
+const Input: React.FC<TodoInputProps> = ({ newTodo, setNewTodo }) => {
     return (
         <div className="flex space-x-2 w-full">
             <input
@@ -19,4 +19,4 @@ const TodoInput: React.FC<TodoInputProps> = ({ newTodo, setNewTodo }) => {
     );
 };
 
-export default TodoInput;
+export default Input;

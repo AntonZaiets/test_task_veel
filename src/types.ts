@@ -1,0 +1,1 @@
+export type TColors = | "blue" | "red"
