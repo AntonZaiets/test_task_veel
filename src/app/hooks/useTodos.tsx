@@ -1,17 +1,17 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
-import { Todo } from "@/app/todo.types";
+import { Todo } from "@/app/types/todo.types";
 
 const getData = async () => {
     const response = await axios.get<Todo[]>("https://jsonplaceholder.typicode.com/todos?_limit=10");
     return response.data;
 };
 
-const addTodo = async (todo: Todo) => {
+export const addTodo = async (todo: Todo) => {
     return axios.post<Todo>("https://jsonplaceholder.typicode.com/todos", todo);
 };
 
-const deleteTodo = async (todoId: number) => {
+export const deleteTodo = async (todoId: number) => {
     return axios.delete(`https://jsonplaceholder.typicode.com/todos/${todoId}`);
 };
 
@@ -23,7 +23,7 @@ export const useTodos = (isEnabled = true) => {
     });
 };
 
-export const useTodoAdd = () => {
+/*export const useTodoAdd = () => {
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: addTodo,
@@ -33,7 +33,7 @@ export const useTodoAdd = () => {
             });
         },
     });
-};
+};*/
 
 export const useTodoDelete = () => {
     const queryClient = useQueryClient();
