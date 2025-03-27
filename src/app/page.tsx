@@ -1,68 +1,50 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import {useEffect, useState} from "react";
+import {useTodos} from "@/app/hooks/useTodos";
+import {useMutation, useQueryClient} from "@tanstack/react-query";
+import {Todo} from "@/app/todo.types";
 import axios from "axios";
 
 export default function TodoListApp () {
-  type Todo = {
-    id: number;
-    title: string;
-    completed: boolean;
-  };
-
-  const [todos, setTodos] = useState<Todo[]>([]);
+  const queryClient = useQueryClient();
   const [newTodo, setNewTodo] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const isAuth = true;
+  const {data, isLoading, isError} = useTodos(isAuth)
 
-  const fetchTodos = async () => {
-    try {
-      const response = await axios.get(
-          "https://jsonplaceholder.typicode.com/todos?_limit=10"
-      );
-      setTodos(response.data);
-      setIsLoading(false);
-    } catch (err) {
-      setError("Error fetching todos");
-      setIsLoading(false);
-    }
-  };
+  const {mutate, isPending, isSuccess} = useMutation({
+      mutationKey: ['add todo'],
+      mutationFn: async (newTodoAdd: Todo) => axios.post('https://jsonplaceholder.typicode.com/todos', newTodoAdd),
+      onSuccess: () => {
+          queryClient.setQueryData(['todos'], (oldData: Todo[]) => {
+              return [
+                  { userId: 1, id: Date.now(), title: newTodo, completed: false },
+                  ...oldData
+              ]
+          });
+      },
+  })
+
+    /*useEffect(() => {
+        if (isSuccess) {
+            queryClient.setQueryData(['todos'], (oldData: Todo[]) => {
+                console.log('111111111111111111', oldData);
+                return Array.isArray(oldData) ? [
+                    { userId: 1, id: Date.now(), title: newTodo, completed: false },
+                    ...oldData
+                ] : [];
+            });
+        }
+    }, [isSuccess, newTodo, queryClient]);*/
 
 
-  useEffect(() => {
-    fetchTodos();
-  }, []);
 
 
-  const addTodo = async () => {
-    try {
-      const newTodoData = { title: newTodo, completed: false };
-      const response = await axios.post(
-          "https://jsonplaceholder.typicode.com/todos",
-          newTodoData
-      );
-
-      setTodos((prevTodos) => [...prevTodos, response.data as Todo]);
-      setNewTodo("");
-    } catch (err) {
-      setError("Error adding todo");
-    }
-  };
-
-  const deleteTodo = async (id: number) => {
-    try {
-      await axios.delete(`https://jsonplaceholder.typicode.com/todos/${id}`);
-      setTodos((prevTodos) => prevTodos.filter((todo) => todo.id !== id));
-    } catch (err) {
-      setError("Error deleting todo");
-    }
-  };
-
-  if (isLoading) return <p>Loading...</p>;
-  if (error) return <p>{error}</p>;
+    if (isLoading) return <p>Loading...</p>;
+  if (isError) return <p>{isError}</p>;
 
   return (
-      <div className="p-6 mx-auto bg-white shadow-md space-y-4 h-screen flex flex-col justify-center">
+      <div className="p-6 mx-auto bg-white shadow-md space-y-4 h-screen flex flex-col">
         <h1 className="text-2xl font-bold text-center text-gray-700">Todo List</h1>
         <div className="flex space-x-2">
           <input
@@ -74,17 +56,27 @@ export default function TodoListApp () {
           />
           <button
               className="bg-blue-500 text-white px-4 py-2 rounded transition-all ease-in-out duration-500 hover:bg-blue-700"
-              onClick={addTodo}
+              onClick={() => {
+                  if (!newTodo.trim()) return;
+                  mutate({
+                      userId: 1,
+                      id: Date.now(),
+                      title: newTodo,
+                      completed: false,
+                  });
+                  setNewTodo("");
+              }}
+              disabled={isPending}
           >
-            Add
+              {isPending ? 'Loading...' : 'Add'}
           </button>
         </div>
-        <div className="flex overflow-y-auto">
-          <div className="flex flex-wrap gap-5 justify-center">
-            {todos.map((todo) => (
+        <div className="flex overflow-y-auto justify-center w-full">
+          <div className="flex flex-wrap gap-5 justify-center w-full">
+            {data?.map((todo) => (
                 <div
                     key={todo.id}
-                    className={`w-[calc(100%/5-1rem)] min-w-[200px] p-4 flex flex-col place-content-between rounded-md ${todo.completed ? "bg-emerald-200" : "bg-sky-200"}`}
+                    className={`min-w-[200px] w-[calc(100%/5-1rem)] p-4 flex flex-col place-content-between rounded-md ${todo.completed ? "bg-emerald-200" : "bg-sky-200"}`}
                 >
                   <span className="text-gray-700 break-words">{todo.title}</span>
                   <div>
@@ -92,7 +84,6 @@ export default function TodoListApp () {
                         className="mt-5 text-gray-400 block text-sm">{todo.completed ? "Status: Completed" : "Status: In Progress"}</span>
                     <button
                         className="w-full bg-red-400 text-white mt-1 px-2 py-1 rounded transition-all ease-in-out duration-500 hover:bg-red-600"
-                        onClick={() => deleteTodo(todo.id)}
                     >
                       Delete
                     </button>
