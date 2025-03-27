@@ -10,7 +10,7 @@ interface ButtonProps {
 const TodoButton: React.FC<ButtonProps> = ({ text, onClick, color , pending}) => {
     return (
         <button
-            className={`bg-${color}-400 text-white px-4 py-2 rounded transition-all ease-in-out duration-400 hover:bg-${color}-600`}
+            className={`bg-${color}-400 text-white px-4 py-2 rounded transition-all ease-in-out duration-400 hover:bg-${color}-600 cursor-pointer`}
             onClick={onClick}
             disabled={pending}
         >
