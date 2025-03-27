@@ -1,27 +1,48 @@
-import {useQuery} from "@tanstack/react-query";
-import {useEffect} from "react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
-import {Todo} from "@/app/todo.types";
-
+import { Todo } from "@/app/todo.types";
 
 const getData = async () => {
-    return axios.get<Todo[]>("https://jsonplaceholder.typicode.com/todos?_limit=10")
-}
-export function useTodos(isEnabled: boolean){
-    const {data, isLoading, isSuccess, isError} = useQuery({
-        queryKey: ['todos'],
+    const response = await axios.get<Todo[]>("https://jsonplaceholder.typicode.com/todos?_limit=10");
+    return response.data;
+};
+
+const addTodo = async (todo: Todo) => {
+    return axios.post<Todo>("https://jsonplaceholder.typicode.com/todos", todo);
+};
+
+const deleteTodo = async (todoId: number) => {
+    return axios.delete(`https://jsonplaceholder.typicode.com/todos/${todoId}`);
+};
+
+export const useTodos = (isEnabled = true) => {
+    return useQuery({
+        queryKey: ["todos"],
         queryFn: getData,
-        select: data => data.data,
         enabled: isEnabled,
-    })
+    });
+};
 
-    useEffect(() => {
-        if(isSuccess) console.log('Fetched successfully')
-    }, [isSuccess, data])
+export const useTodoAdd = () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: addTodo,
+        onSuccess: (newTodo) => {
+            queryClient.setQueryData(["todos"], (oldData: Todo[] | undefined) => {
+                return oldData ? [newTodo.data, ...oldData] : [newTodo.data];
+            });
+        },
+    });
+};
 
-    useEffect(() => {
-        if(isError) console.log('Error fetching')
-    }, [isError])
-
-    return {data, isLoading, isError}
-}
+export const useTodoDelete = () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: deleteTodo,
+        onSuccess: (_, todoId) => {
+            queryClient.setQueryData(["todos"], (oldData: Todo[] | undefined) => {
+                return oldData ? oldData.filter((todo) => todo.id !== todoId) : [];
+            });
+        },
+    });
+};
