@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Todo } from "@/app/types/todo.types";
-import {addTodo, deleteTodo} from "@/app/services/api/api";
+import {addTodo, deleteTodo} from "@/app/services/api/todosApi";
 
 export const useTodoManagement = () => {
     const [newTodo, setNewTodo] = useState("");

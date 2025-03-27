@@ -7,7 +7,7 @@ interface TodoInputProps {
 
 const TodoInput: React.FC<TodoInputProps> = ({ newTodo, setNewTodo }) => {
     return (
-        <div className="flex space-x-2">
+        <div className="flex space-x-2 w-full">
             <input
                 type="text"
                 placeholder="New task description..."
