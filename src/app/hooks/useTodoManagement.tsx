@@ -7,7 +7,7 @@ export const useTodoManagement = () => {
     const [newTodo, setNewTodo] = useState("");
     const queryClient = useQueryClient();
 
-    const { mutate: addTodoMutation } = useMutation({
+    const { mutate: addTodoMutation, isPending: addPending } = useMutation({
         mutationFn: addTodo,
         onSuccess: (newTodoResponse) => {
             queryClient.setQueryData(["todos"], (oldData: Todo[] | undefined) => {
@@ -16,7 +16,7 @@ export const useTodoManagement = () => {
         },
     });
 
-    const { mutate: deleteTodoMutation } = useMutation({
+    const { mutate: deleteTodoMutation, isPending: deletePending } = useMutation({
         mutationFn: deleteTodo,
         onSuccess: (_, todoId) => {
             queryClient.setQueryData(["todos"], (oldData: Todo[] | undefined) => {
@@ -43,5 +43,7 @@ export const useTodoManagement = () => {
         setNewTodo,
         handleTodoAdd,
         deleteTodo: deleteTodoMutation,
+        addPending,
+        deletePending
     };
 };

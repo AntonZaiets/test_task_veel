@@ -8,9 +8,11 @@ interface TodoItemProps {
         completed: boolean;
     };
     onDelete: (id: number) => void;
+    pending: boolean;
+    text: string;
 }
 
-const TodoItem: React.FC<TodoItemProps> = ({ todo, onDelete }) => {
+const TodoItem: React.FC<TodoItemProps> = ({ todo, onDelete, pending, text }) => {
     return (
         <div
             key={todo.id}
@@ -19,7 +21,7 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, onDelete }) => {
             }`}
         >
             <span className="text-gray-700 break-words">{todo.title}</span>
-            <TodoButton onClick={() => onDelete(todo.id)} text="Delete" color="red" />
+            <TodoButton onClick={() => onDelete(todo.id)} text={pending ? 'Pending...' : 'Delete'} color="red" pending={pending}/>
         </div>
     );
 };

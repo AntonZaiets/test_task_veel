@@ -8,7 +8,7 @@ import {useTodoManagement} from "@/app/hooks/useTodoManagement";
 
 export default function TodoListApp() {
     const { data, isLoading, isError } = useTodos();
-    const { newTodo, setNewTodo, handleTodoAdd, deleteTodo } = useTodoManagement();
+    const { newTodo, setNewTodo, handleTodoAdd, deleteTodo, deletePending, addPending } = useTodoManagement();
     if (isLoading) return <p>Loading...</p>;
     if (isError) return <p>Error loading data</p>;
 
@@ -17,12 +17,12 @@ export default function TodoListApp() {
             <h1 className="text-2xl font-bold text-center text-gray-700">Todo List</h1>
             <div className="flex space-x-2">
                 <TodoInput newTodo={newTodo} setNewTodo={setNewTodo} />
-                <TodoButton onClick={handleTodoAdd} text={'Add'} color={'blue'}/>
+                <TodoButton onClick={handleTodoAdd} text={addPending ? 'Pending...' : 'Add'} color={'blue'} pending={addPending}/>
             </div>
             <div className="flex overflow-y-auto justify-center w-full">
                 <div className="flex flex-wrap gap-5 justify-center w-full">
                     {data?.map((todo) => (
-                        <TodoItem key={todo.id} todo={todo} onDelete={deleteTodo} />
+                        <TodoItem key={todo.id} todo={todo} onDelete={deleteTodo} pending={deletePending}/>
                     ))}
                 </div>
             </div>
