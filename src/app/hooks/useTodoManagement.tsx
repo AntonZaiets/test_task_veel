@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Todo } from "@/app/types/todo.types";
 import {addTodo, deleteTodo} from "@/app/services/api/todosApi";
+import { v4 as uuidv4 } from "uuid";
 
 export const useTodoManagement = () => {
     const [newTodo, setNewTodo] = useState("");
@@ -30,7 +31,7 @@ export const useTodoManagement = () => {
 
         addTodoMutation({
             userId: 1,
-            id: Date.now(),
+            id: uuidv4(),
             title: newTodo,
             completed: false,
         });

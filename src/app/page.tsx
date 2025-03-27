@@ -5,11 +5,12 @@ import TodoInput from "@/app/uikit/input";
 import TodoButton from "@/app/uikit/button";
 import TodoItem from "@/app/components/task";
 import {useTodoManagement} from "@/app/hooks/useTodoManagement";
+import {Loader} from "@/app/uikit/loader";
 
 export default function TodoListApp() {
-    const { data, isLoading, isError } = useTodos();
+    const { data, isLoading, isError} = useTodos();
     const { newTodo, setNewTodo, handleTodoAdd, deleteTodo, deletePending, addPending } = useTodoManagement();
-    if (isLoading) return <p>Loading...</p>;
+    if (isLoading) return <Loader loading={true} />;
     if (isError) return <p>Error loading data</p>;
 
     return (
