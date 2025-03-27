@@ -1,14 +1,12 @@
 import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Todo } from "@/app/types/todo.types";
-import axios from "axios";
-import {addTodo, deleteTodo} from "@/app/hooks/useTodos";
+import {addTodo, deleteTodo} from "@/app/services/api/api";
 
 export const useTodoManagement = () => {
     const [newTodo, setNewTodo] = useState("");
     const queryClient = useQueryClient();
 
-    // Mutation for adding a new todo
     const { mutate: addTodoMutation } = useMutation({
         mutationFn: addTodo,
         onSuccess: (newTodoResponse) => {
@@ -18,7 +16,6 @@ export const useTodoManagement = () => {
         },
     });
 
-    // Mutation for deleting a todo
     const { mutate: deleteTodoMutation } = useMutation({
         mutationFn: deleteTodo,
         onSuccess: (_, todoId) => {
@@ -28,7 +25,6 @@ export const useTodoManagement = () => {
         },
     });
 
-    // Handler for adding a new todo
     const handleTodoAdd = () => {
         if (!newTodo.trim()) return;
 

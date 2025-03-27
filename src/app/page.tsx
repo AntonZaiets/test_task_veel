@@ -7,23 +7,8 @@ import TodoItem from "@/app/components/task";
 import {useTodoManagement} from "@/app/hooks/useTodoManagement";
 
 export default function TodoListApp() {
-    //const [newTodo, setNewTodo] = useState("");
     const { data, isLoading, isError } = useTodos();
-    //const { mutate: addTodo } = useTodoAdd();
-    //const { mutate: deleteTodo } = useTodoDelete();
     const { newTodo, setNewTodo, handleTodoAdd, deleteTodo } = useTodoManagement();
-
-    /*const handleTodoAdd = () => {
-        if (!newTodo.trim()) return;
-        addTodo({
-            userId: 1,
-            id: Date.now(),
-            title: newTodo,
-            completed: false,
-        });
-        setNewTodo("");
-    };*/
-
     if (isLoading) return <p>Loading...</p>;
     if (isError) return <p>Error loading data</p>;
 
