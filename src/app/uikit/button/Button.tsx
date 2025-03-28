@@ -6,6 +6,7 @@ const Button: React.FC<ButtonProps> = ({ text, onClick, color , pending}) => {
         <button
             className={styles.button(color, pending)}
             onClick={onClick}
+            disabled={pending}
         >
             {text}
         </button>
