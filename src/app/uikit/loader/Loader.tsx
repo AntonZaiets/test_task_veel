@@ -1,11 +1,10 @@
 import React from "react";
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
+import {ILoaderProps} from "@/types";
 
-interface LoaderProps{
-    loading: boolean;
-}
-export const Loader: React.FC<LoaderProps> = ({loading}) => {
+
+export const Loader: React.FC<ILoaderProps> = ({loading}) => {
     return (
         <div>
             <Backdrop

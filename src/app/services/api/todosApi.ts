@@ -1,13 +1,14 @@
 import apiClient from "./apiClient";
-import { Todo } from "@/app/types/todo.types";
+import {ITodo} from "@/types";
+
 
 export const getData = async () => {
-    const response = await apiClient.get<Todo[]>("/todos?_limit=10");
+    const response = await apiClient.get<ITodo[]>("/todos?_limit=10");
     return response.data;
 };
 
-export const addTodo = async (todo: Todo) => {
-    return apiClient.post<Todo>("/todos", todo);
+export const addTodo = async (todo: ITodo) => {
+    return apiClient.post<ITodo>("/todos", todo);
 
 };
 

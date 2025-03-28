@@ -1,12 +1,10 @@
 import React from "react";
 import {styles} from "@/app/uikit/input/input.styles";
+import {ITodoInputProps} from "@/types";
 
-interface TodoInputProps {
-    newTodo: string;
-    setNewTodo: React.Dispatch<React.SetStateAction<string>>;
-}
 
-const Input: React.FC<TodoInputProps> = ({ newTodo, setNewTodo }) => {
+
+const Input: React.FC<ITodoInputProps> = ({ newTodo, setNewTodo }) => {
     return (
         <div className="flex space-x-2 w-full">
             <input

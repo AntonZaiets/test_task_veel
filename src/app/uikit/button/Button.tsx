@@ -1,7 +1,7 @@
 import React from "react";
-import { ButtonProps } from "@/app/uikit/button/config/button.types";
 import { styles } from './button.styles'
-const Button: React.FC<ButtonProps> = ({ text, onClick, color , pending}) => {
+import {IButtonProps} from "@/types";
+const Button: React.FC<IButtonProps> = ({ text, onClick, color , pending}) => {
     return (
         <button
             className={styles.button(color, pending)}

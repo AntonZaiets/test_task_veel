@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Todo } from "@/app/types/todo.types";
 import {addTodo, deleteTodo} from "@/app/services/api/todosApi";
 import { v4 as uuidv4 } from "uuid";
+import {ITodo} from "@/types";
 
 export const useTodoManagement = () => {
     const [newTodo, setNewTodo] = useState("");
@@ -11,7 +11,7 @@ export const useTodoManagement = () => {
     const { mutate: addTodoMutation, isPending: addPending } = useMutation({
         mutationFn: addTodo,
         onSuccess: (newTodoResponse) => {
-            queryClient.setQueryData(["todos"], (oldData: Todo[] | undefined) => {
+            queryClient.setQueryData(["todos"], (oldData: ITodo[] | undefined) => {
                 return oldData ? [newTodoResponse.data, ...oldData] : [newTodoResponse.data];
             });
         },
@@ -20,7 +20,7 @@ export const useTodoManagement = () => {
     const { mutate: deleteTodoMutation, isPending: deletePending } = useMutation({
         mutationFn: deleteTodo,
         onSuccess: (_, todoId) => {
-            queryClient.setQueryData(["todos"], (oldData: Todo[] | undefined) => {
+            queryClient.setQueryData(["todos"], (oldData: ITodo[] | undefined) => {
                 return oldData ? oldData.filter((todo) => todo.id !== todoId) : [];
             });
         },
