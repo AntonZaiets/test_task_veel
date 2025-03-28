@@ -10,11 +10,12 @@ export default function QueryProvider({ children }: { children: React.ReactNode 
         defaultOptions: {
             queries: {
                 staleTime: 1000 * 60 * 60,
+                refetchOnWindowRefresh: false,
             },
         },
     }));
 
-    const persister = createSyncStoragePersister({ storage: window.localStorage });
+    const persister = createSyncStoragePersister({ storage: localStorage });
 
     persistQueryClient({
         queryClient,
