@@ -23,7 +23,7 @@ export default function TodoListApp() {
             <div className="flex overflow-y-auto justify-center w-full">
                 <div className="flex flex-wrap gap-5 justify-center w-full">
                     {data?.map((todo) => (
-                        <Task key={todo.id} todo={todo} onDelete={deleteTodo} pending={deletePending} id={todo.id} title={todo.title} completed={todo.completed}/>
+                        <Task key={todo.id} onDelete={deleteTodo} pending={deletePending} id={todo.id} title={todo.title} completed={todo.completed}/>
                     ))}
                 </div>
             </div>
