@@ -22,7 +22,7 @@ const Task: React.FC<TaskProps> = ({ todo, onDelete, pending }) => {
             <span className="text-gray-700 break-words">{todo.title}</span>
             <div className="flex flex-col">
                 <span className="text-gray-400 break-words pb-2 pt-3">Status: {todo.completed ? 'Completed' : 'In Progress'}</span>
-                <Button onClick={() => onDelete(todo.id)} text={pending ? 'Pending...' : 'Delete'} color="red" pending={pending}/>
+                <Button onClick={() => onDelete(todo.id)} text={'Delete'} color="red" pending={pending}/>
             </div>
         </div>
     );
